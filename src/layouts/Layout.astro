@@ -1,22 +1,42 @@
+---
+import type { SanityDocument } from "@sanity/client";
+import { loadQuery } from "./../sanity/lib/load-query";
+import "../styles/global.css";
+
+const { data: siteSettings } = await loadQuery<SanityDocument>({
+  query: `*[_id == "siteSettings"][0]{
+    siteTitle,
+    liveTheme->{
+      _id,
+      name,
+      defaultColorScheme->{
+        _id,
+        colorScheme,
+        backgroundColor,
+        textColor,
+        accentColor
+      }
+    }
+  }`,
+});
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{siteSettings.siteTitle}</title>
+  </head>
+  <body
+    style={`
+      --bg-color: ${siteSettings?.liveTheme?.defaultColorScheme?.backgroundColor?.hex || "#ffffff"};
+      --text-color: ${siteSettings?.liveTheme?.defaultColorScheme?.textColor?.hex || "#000000"};
+      --accent-color: ${siteSettings?.liveTheme?.defaultColorScheme?.accentColor?.hex || "#007acc"};
+    `}
+  >
+    <slot />
+  </body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

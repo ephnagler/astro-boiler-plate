@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+/* Global CSS Variables - these will be overridden by the theme values from Layout.astro */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --accent-color: #007acc;
+}
+
+/* Apply theme variables globally */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Example usage */
+.theme-bg {
+  background-color: var(--bg-color);
+}
+
+.theme-text {
+  color: var(--text-color);
+}
+
+.theme-accent {
+  color: var(--accent-color);
+}

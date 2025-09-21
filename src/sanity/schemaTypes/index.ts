@@ -1,0 +1,14 @@
+import type { SchemaTypeDefinition } from "sanity";
+import { themeType } from "./documents/theme";
+import { projectType } from "./documents/project";
+import { blogType } from "./documents/blog";
+import { eventType } from "./documents/event";
+import { galleryType } from "./documents/gallery";
+import { siteSettingsType } from "./settings";
+import { pageType } from "./documents/page";
+import { sectionType } from "./objects/section";
+import { colorSchemeType } from "./documents/colorScheme";
+
+export const schema: { types: SchemaTypeDefinition[] } = {
+  types: [themeType, projectType, blogType, eventType, galleryType, siteSettingsType, pageType, sectionType, colorSchemeType],
+};

@@ -21,9 +21,9 @@ export const pageType = defineType({
             type:"image",
         }),
         defineField({
-            name: "content",
+            name: "sections",
             type: "array",
-            of: [{ type: "block" }],
+            of: [{ type: "section" }],
         }),
     ],
 });

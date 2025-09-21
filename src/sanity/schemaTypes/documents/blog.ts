@@ -16,5 +16,26 @@ export const blogType = defineType({
                 maxLength: 96,
             },
         }),
+        defineField({
+            name: "excerpt",
+            type: "text",
+        }),
+        defineField({
+            name: "featuredImage",
+            type: "image",
+        }),
+        defineField({
+            name: "publishDate",
+            type: "datetime",
+        }),
+        defineField({
+            name: "author",
+            type: "string",
+        }),
+        defineField({
+            name: "content",
+            type: "array",
+            of: [{ type: "block" }],
+        }),
     ],
 });

@@ -6,7 +6,7 @@ import "../styles/global.css";
 const { data: siteSettings } = await loadQuery<SanityDocument>({
   query: `*[_id == "siteSettings"][0]{
     siteTitle,
-    liveTheme->{
+    liveTemplate->{
       _id,
       name,
       defaultColorScheme->{
@@ -32,9 +32,9 @@ const { data: siteSettings } = await loadQuery<SanityDocument>({
   </head>
   <body
     style={`
-      --bg-color: ${siteSettings?.liveTheme?.defaultColorScheme?.backgroundColor?.hex || "#ffffff"};
-      --text-color: ${siteSettings?.liveTheme?.defaultColorScheme?.textColor?.hex || "#000000"};
-      --accent-color: ${siteSettings?.liveTheme?.defaultColorScheme?.accentColor?.hex || "#007acc"};
+      --bg-color: ${siteSettings?.liveTemplate?.defaultColorScheme?.backgroundColor?.hex || "#ffffff"};
+      --text-color: ${siteSettings?.liveTemplate?.defaultColorScheme?.textColor?.hex || "#000000"};
+      --accent-color: ${siteSettings?.liveTemplate?.defaultColorScheme?.accentColor?.hex || "#007acc"};
     `}
   >
     <slot />

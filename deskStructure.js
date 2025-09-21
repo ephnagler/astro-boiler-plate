@@ -26,12 +26,12 @@ export const deskStructure = (S) =>
         ),
       S.divider(),
       S.listItem()
-        .title('Themes')
+        .title('Templates')
         .icon(VersionsIcon)
         .child(
           S.documentList()
-            .title('Themes')
-            .filter('_type == "theme"')
+            .title('Templates')
+            .filter('_type == "template"')
         ),
       S.listItem()
         .title('Pages')

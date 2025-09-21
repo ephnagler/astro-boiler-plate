@@ -6,13 +6,12 @@ export const siteSettingsType = defineType({
     fields: [
         defineField({
             name: "siteTitle",
-            title: "Site Title",
             type: "string",
         }),
         defineField({
-            name: "liveTheme",
+            name: "liveTemplate",
             type: "reference",
-            to: [{ type: "theme" }],
+            to: [{ type: "template" }],
             options:{
                 disableNew: true,
             }

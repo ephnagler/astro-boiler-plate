@@ -6,7 +6,7 @@ import { loadQuery } from "./../sanity/lib/load-query";
 const { data: siteSettings } = await loadQuery<SanityDocument>({
   query: `*[_id == "siteSettings"][0]{
     title,
-    liveTheme->{
+    liveTemplate->{
       _id,
       title,
       defaultColorScheme->{
@@ -30,10 +30,10 @@ const { data: siteSettings } = await loadQuery<SanityDocument>({
     <section>
       <h1>{siteSettings?.title || "Welcome"}</h1>
       {
-        siteSettings?.liveTheme && (
+        siteSettings?.liveTemplate && (
           <div>
-            <h2>Current Theme: {siteSettings.liveTheme.title}</h2>
-            <p>Theme ID: {siteSettings.liveTheme._id}</p>
+            <h2>Current Theme: {siteSettings.liveTemplate.title}</h2>
+            <p>Theme ID: {siteSettings.liveTemplate._id}</p>
           </div>
         )
       }

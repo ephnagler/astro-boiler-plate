@@ -1,7 +1,7 @@
 import { ALL_FIELDS_GROUP, defineField, defineType } from "sanity";
 
-export const themeType = defineType({
-    name: "theme",
+export const templateType = defineType({
+    name: "template",
     type: "document",
     groups:[
         {name:"preferences", title:"Preferences"},
@@ -11,7 +11,7 @@ export const themeType = defineType({
     fields: [
         defineField({
             name: "title",
-            title: "Theme Title",
+            title: "Template Title",
             type: "string",
             group: "preferences"
         }),

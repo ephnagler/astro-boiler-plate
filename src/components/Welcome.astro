@@ -9,21 +9,10 @@ const { data: siteSettings } = await loadQuery<SanityDocument>({
     liveTemplate->{
       _id,
       title,
-      defaultColorScheme->{
-        _id,
-        colorScheme,
-        backgroundColor,
-        textColor,
-        accentColor
-      }
     }
   }`,
 });
 ---
-
-<script define:vars={{ siteSettings }}>
-  console.log("Settings data (client-side):", siteSettings);
-</script>
 
 <div>
   <main>

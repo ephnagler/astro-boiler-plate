@@ -3,10 +3,10 @@ import { ALL_FIELDS_GROUP, defineField, defineType } from "sanity";
 export const templateType = defineType({
     name: "template",
     type: "document",
-    groups:[
-        {name:"preferences", title:"Preferences"},
-        {name:"homePage", title:"Home Page"},
-        {...ALL_FIELDS_GROUP,hidden: true,},
+    groups: [
+        { name: "preferences", title: "Preferences" },
+        { name: "homePage", title: "Home Page" },
+        { ...ALL_FIELDS_GROUP, hidden: true, },
     ],
     fields: [
         defineField({
@@ -16,16 +16,28 @@ export const templateType = defineType({
             group: "preferences"
         }),
         defineField({
-            name: "homeSections",
+            name: "pages",
             type: "array",
-            of: [{type: "section"}],
-            group: "homePage"
+            of: [{ type: "reference", to: [{ type: "page" }] }],
+            group: "preferences"
         }),
         defineField({
-            name: "defaultColorScheme",
+            name: "defaultLightColorScheme",
             type: "reference",
-            to: [{type: "colorScheme"}],
+            to: [{ type: "colorScheme" }],
             group: "preferences"
-        })
+        }),
+        defineField({
+            name: "defaultDarkColorScheme",
+            type: "reference",
+            to: [{ type: "colorScheme" }],
+            group: "preferences"
+        }),
+        defineField({
+            name: "homeSections",
+            type: "array",
+            of: [{ type: "section" }],
+            group: "homePage"
+        }),
     ]
 });

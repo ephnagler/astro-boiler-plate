@@ -9,9 +9,12 @@ const { data: siteSettings } = await loadQuery<SanityDocument>({
     liveTemplate->{
       _id,
       name,
-      defaultColorScheme->{
-        _id,
-        colorScheme,
+      defaultLightColorScheme->{
+        backgroundColor,
+        textColor,
+        accentColor
+      },
+      defaultDarkColorScheme->{
         backgroundColor,
         textColor,
         accentColor
@@ -19,6 +22,13 @@ const { data: siteSettings } = await loadQuery<SanityDocument>({
     }
   }`,
 });
+
+const defaultDarkColorScheme =
+  siteSettings?.liveTemplate?.defaultDarkColorScheme;
+
+const bgColor = defaultDarkColorScheme?.backgroundColor?.hex || "#ffffff";
+const textColor = defaultDarkColorScheme?.textColor?.hex || "#000000";
+const accentColor = defaultDarkColorScheme?.accentColor?.hex || "#007acc";
 ---
 
 <!doctype html>
@@ -29,14 +39,15 @@ const { data: siteSettings } = await loadQuery<SanityDocument>({
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{siteSettings.siteTitle}</title>
+    <style define:vars={{ bgColor, textColor, accentColor }} is:global>
+      :root {
+        --bgColor: var(--bgColor);
+        --textColor: var(--textColor);
+        --accentColor: var(--accentColor);
+      }
+    </style>
   </head>
-  <body
-    style={`
-      --bg-color: ${siteSettings?.liveTemplate?.defaultColorScheme?.backgroundColor?.hex || "#ffffff"};
-      --text-color: ${siteSettings?.liveTemplate?.defaultColorScheme?.textColor?.hex || "#000000"};
-      --accent-color: ${siteSettings?.liveTemplate?.defaultColorScheme?.accentColor?.hex || "#007acc"};
-    `}
-  >
+  <body>
     <slot />
   </body>
 </html>

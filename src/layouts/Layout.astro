@@ -7,30 +7,34 @@ const { data: siteSettings } = await loadQuery<SanityDocument>({
   query: `*[_id == "siteSettings" && !(_id in path("drafts.**"))][0]{
     siteTitle,
     liveTemplate->{
-      defaultLightColorScheme->{
-        backgroundColor,
-        textColor,
-        accentColor
+      lightScheme->{
+        baseBg,
+        baseText,
+        accentBg,
+        accentText
       },
-      defaultDarkColorScheme->{
-        backgroundColor,
-        textColor,
-        accentColor
+      darkScheme->{
+        baseBg,
+        baseText,
+        accentBg,
+        accentText
       }
     }
   }`,
 });
 
-const light = siteSettings?.liveTemplate?.defaultLightColorScheme;
-const dark = siteSettings?.liveTemplate?.defaultDarkColorScheme;
+const light = siteSettings?.liveTemplate?.lightScheme;
+const dark = siteSettings?.liveTemplate?.darkScheme;
 
-const bgColor = light?.backgroundColor?.hex || "#ffffff";
-const textColor = light?.textColor?.hex || "#000000";
-const accentColor = light?.accentColor?.hex || "#007acc";
+const baseBg = light?.baseBg?.hex || "#EEEEEE";
+const baseText = light?.baseText?.hex || "#111111";
+const accentBg = light?.accentBg?.hex || "#8E4EC6";
+const accentText = light?.accentText?.hex || "#FFFFFF";
 
-const bgColorDark = dark?.backgroundColor?.hex || "#000000";
-const textColorDark = dark?.textColor?.hex || "#ffffff";
-const accentColorDark = dark?.accentColor?.hex || "#007acc";
+const baseBgDark = dark?.baseBg?.hex || baseText;
+const baseTextDark = dark?.baseText?.hex || baseBg;
+const accentBgDark = dark?.accentBg?.hex || accentBg;
+const accentTextDark = dark?.accentText?.hex || accentText;
 ---
 
 <!doctype html>
@@ -40,36 +44,35 @@ const accentColorDark = dark?.accentColor?.hex || "#007acc";
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{siteSettings.siteTitle}</title>
+    <title>{siteSettings?.siteTitle || "Astro Boiler Plate"}</title>
     <script>
       import { initThemeToggle } from "./../js/theme-switch.js";
       initThemeToggle();
     </script>
     <style
       define:vars={{
-        bgColor,
-        bgColorDark,
-        textColor,
-        textColorDark,
-        accentColor,
-        accentColorDark,
+        baseBg,
+        baseText,
+        accentBg,
+        accentText,
+        baseBgDark,
+        baseTextDark,
+        accentBgDark,
+        accentTextDark,
       }}
       is:global
     >
-      html {
-        background-color: var(--bgColor);
-        color: var(--textColor);
-        .accent-color {
-          color: var(--accentColor);
-        }
-
-        &[data-theme="dark"] {
-          background-color: var(--bgColorDark);
-          color: var(--textColorDark);
-          .accent-color {
-            color: var(--accentColorDark);
-          }
-        }
+      :root {
+        --base-bg: var(--baseBg);
+        --base-text: var(--baseText);
+        --accent-bg: var(--accentBg);
+        --accent-text: var(--accentText);
+      }
+      [data-theme="dark"] {
+        --base-bg: var(--baseBgDark);
+        --base-text: var(--baseTextDark);
+        --accent-bg: var(--accentBgDark);
+        --accent-text: var(--accentTextDark);
       }
     </style>
   </head>

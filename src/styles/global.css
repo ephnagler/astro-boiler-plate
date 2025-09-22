@@ -1,2 +1,26 @@
 @import "tailwindcss";
 @variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@layer base {
+    html {
+        background-color: var(--base-bg);
+        color: var(--base-text);
+    }
+    h1 {
+        @apply text-4xl font-bold mb-4;
+    }
+    h2 {
+        @apply text-2xl font-bold mb-1;
+    }
+    button {
+        background-color: var(--accent-bg);
+        color: var(--accent-text);
+        margin: 1.5rem 0;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+    }
+    .accent-text{
+        color: var(--accent-bg);
+    }
+}

@@ -16,7 +16,7 @@ export default defineConfig({
 
   integrations: [sanity({
     projectId: 'n4olvw93',
-    dataset: 'production',
+    dataset: 'staging',
     useCdn: false, 
     apiVersion: "2025-09-20", 
     studioBasePath: '/studio',

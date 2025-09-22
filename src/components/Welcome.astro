@@ -5,6 +5,7 @@ import { loadQuery } from "./../sanity/lib/load-query";
 // Fetch settings data with referenced theme (singleton document)
 const { data: siteSettings } = await loadQuery<SanityDocument>({
   query: `*[_id == "siteSettings"][0]{
+    siteTitle,
     liveTemplate->{
       _id,
       title,
@@ -13,29 +14,35 @@ const { data: siteSettings } = await loadQuery<SanityDocument>({
 });
 ---
 
-<div>
-  <main>
-    <section>
-      <h1>{siteSettings?.title || "Welcome"}</h1>
-      {
-        siteSettings?.liveTemplate && (
-          <div>
-            <h2>Current Theme: {siteSettings.liveTemplate.title}</h2>
-            <p>Theme ID: {siteSettings.liveTemplate._id}</p>
-            <button
-              data-toggle-theme="light,dark"
-              aria-label="Dark Mode Toggle"
-              class="flex gap-2"
-            >
-              Theme Toggle:
-              <div class="relative inline-block">
-                <span class="opacity-100 dark:opacity-0 absolute">Light</span>
-                <span class="opacity-0 dark:opacity-100 absolute">Dark</span>
-              </div>
-            </button>
-          </div>
-        )
-      }
-    </section>
-  </main>
-</div>
+<main class="flex flex-col gap-4 items-center justify-center h-screen">
+  <section class="flex flex-col">
+    <h1>
+      {siteSettings?.siteTitle || "Welcome to the Astro Boiler Plate."}
+    </h1>
+    {
+      siteSettings?.liveTemplate?.title ? (
+        <>
+          <h2>
+            Current Theme:
+            <span class="accent-text">{siteSettings.liveTemplate.title}</span>
+          </h2>
+          <p>Theme ID: {siteSettings.liveTemplate._id}</p>
+        </>
+      ) : (
+        <p>Login to Studio to get started.</p>
+      )
+    }
+
+    <button
+      data-toggle-theme="light,dark"
+      aria-label="Dark Mode Toggle"
+      class="flex gap-2 w-fit"
+    >
+      Theme Toggle:
+      <div class="relative inline-block">
+        <span class="opacity-100 dark:opacity-0 inline-block">Light</span>
+        <span class="opacity-0 dark:opacity-100 absolute left-0">Dark</span>
+      </div>
+    </button>
+  </section>
+</main>

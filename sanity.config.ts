@@ -7,7 +7,7 @@ import {colorInput} from '@sanity/color-input'
 
 export default defineConfig({
   projectId: 'n4olvw93',
-  dataset: 'production',
+  dataset: 'staging',
   plugins: [structureTool({ structure: deskStructure }), colorInput()],
   schema,
   document: {

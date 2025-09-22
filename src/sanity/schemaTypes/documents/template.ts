@@ -22,13 +22,13 @@ export const templateType = defineType({
             group: "preferences"
         }),
         defineField({
-            name: "defaultLightColorScheme",
+            name: "lightScheme",
             type: "reference",
             to: [{ type: "colorScheme" }],
             group: "preferences"
         }),
         defineField({
-            name: "defaultDarkColorScheme",
+            name: "darkScheme",
             type: "reference",
             to: [{ type: "colorScheme" }],
             group: "preferences"

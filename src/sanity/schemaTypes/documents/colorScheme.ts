@@ -9,15 +9,23 @@ export const colorSchemeType = defineType({
             type: "string",
         }),
         defineField({
-            name: "backgroundColor",
+            name: "baseBg",
+            title: "Base Background Color",
             type: "color",
         }),
         defineField({
-            name: "textColor",
+            name: "baseText",
+            title: "Base Text Color",
             type: "color",
         }),
         defineField({
-            name: "accentColor",
+            name: "accentBg",
+            title: "Accent Background Color",
+            type: "color",
+        }),
+        defineField({
+            name: "accentText",
+            title: "Accent Text Color",
             type: "color",
         })
     ],

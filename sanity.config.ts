@@ -6,12 +6,12 @@ import { deskStructure } from "./deskStructure";
 import {colorInput} from '@sanity/color-input'  
 
 export default defineConfig({
-  projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
-  dataset: import.meta.env.PUBLIC_SANITY_DATASET,
+  projectId: 'n4olvw93',
+  dataset: 'production',
   plugins: [structureTool({ structure: deskStructure }), colorInput()],
   schema,
   document: {
-    newDocumentOptions: (prev, {currentUser, creationContext}) => {
+    newDocumentOptions: (prev, {creationContext}) => {
       if (creationContext.type === 'global') {
         // Hide the creation of "settings" documents if the context is global
         return prev.filter((templateItem) => templateItem.templateId != 'siteSettings')

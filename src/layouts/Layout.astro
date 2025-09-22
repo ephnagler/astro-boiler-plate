@@ -4,11 +4,9 @@ import { loadQuery } from "./../sanity/lib/load-query";
 import "../styles/global.css";
 
 const { data: siteSettings } = await loadQuery<SanityDocument>({
-  query: `*[_id == "siteSettings"][0]{
+  query: `*[_id == "siteSettings" && !(_id in path("drafts.**"))][0]{
     siteTitle,
     liveTemplate->{
-      _id,
-      name,
       defaultLightColorScheme->{
         backgroundColor,
         textColor,
@@ -23,12 +21,16 @@ const { data: siteSettings } = await loadQuery<SanityDocument>({
   }`,
 });
 
-const defaultDarkColorScheme =
-  siteSettings?.liveTemplate?.defaultDarkColorScheme;
+const light = siteSettings?.liveTemplate?.defaultLightColorScheme;
+const dark = siteSettings?.liveTemplate?.defaultDarkColorScheme;
 
-const bgColor = defaultDarkColorScheme?.backgroundColor?.hex || "#ffffff";
-const textColor = defaultDarkColorScheme?.textColor?.hex || "#000000";
-const accentColor = defaultDarkColorScheme?.accentColor?.hex || "#007acc";
+const bgColor = light?.backgroundColor?.hex || "#ffffff";
+const textColor = light?.textColor?.hex || "#000000";
+const accentColor = light?.accentColor?.hex || "#007acc";
+
+const bgColorDark = dark?.backgroundColor?.hex || "#000000";
+const textColorDark = dark?.textColor?.hex || "#ffffff";
+const accentColorDark = dark?.accentColor?.hex || "#007acc";
 ---
 
 <!doctype html>
@@ -39,11 +41,35 @@ const accentColor = defaultDarkColorScheme?.accentColor?.hex || "#007acc";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{siteSettings.siteTitle}</title>
-    <style define:vars={{ bgColor, textColor, accentColor }} is:global>
-      :root {
-        --bgColor: var(--bgColor);
-        --textColor: var(--textColor);
-        --accentColor: var(--accentColor);
+    <script>
+      import { initThemeToggle } from "./../js/theme-switch.js";
+      initThemeToggle();
+    </script>
+    <style
+      define:vars={{
+        bgColor,
+        bgColorDark,
+        textColor,
+        textColorDark,
+        accentColor,
+        accentColorDark,
+      }}
+      is:global
+    >
+      html {
+        background-color: var(--bgColor);
+        color: var(--textColor);
+        .accent-color {
+          color: var(--accentColor);
+        }
+
+        &[data-theme="dark"] {
+          background-color: var(--bgColorDark);
+          color: var(--textColorDark);
+          .accent-color {
+            color: var(--accentColorDark);
+          }
+        }
       }
     </style>
   </head>

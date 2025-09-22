@@ -3,7 +3,9 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from "@tailwindcss/vite";
 import sanity from '@sanity/astro';
 import react from '@astrojs/react';
+import { loadEnv } from "vite";
 
+const {SANITY_API_TOKEN} = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '');
 // https://astro.build/config
 export default defineConfig({
   vite: {
@@ -14,6 +16,7 @@ export default defineConfig({
     dataset: 'production',
     useCdn: false, 
     apiVersion: "2025-09-20", 
-    studioBasePath: '/studio'
+    studioBasePath: '/studio',
+    token: SANITY_API_TOKEN
   }), react()]
 });

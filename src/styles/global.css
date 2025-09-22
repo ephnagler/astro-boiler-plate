@@ -1,8 +1,2 @@
 @import "tailwindcss";
-
-@layer base {
-body{
-    background-color: var(--bgColor);
-    color: var(--textColor);
-  }
-}
+@variant dark (&:where([data-theme=dark], [data-theme=dark] *));

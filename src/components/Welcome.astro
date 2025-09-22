@@ -5,7 +5,6 @@ import { loadQuery } from "./../sanity/lib/load-query";
 // Fetch settings data with referenced theme (singleton document)
 const { data: siteSettings } = await loadQuery<SanityDocument>({
   query: `*[_id == "siteSettings"][0]{
-    title,
     liveTemplate->{
       _id,
       title,
@@ -23,6 +22,17 @@ const { data: siteSettings } = await loadQuery<SanityDocument>({
           <div>
             <h2>Current Theme: {siteSettings.liveTemplate.title}</h2>
             <p>Theme ID: {siteSettings.liveTemplate._id}</p>
+            <button
+              data-toggle-theme="light,dark"
+              aria-label="Dark Mode Toggle"
+              class="flex gap-2"
+            >
+              Theme Toggle:
+              <div class="relative inline-block">
+                <span class="opacity-100 dark:opacity-0 absolute">Light</span>
+                <span class="opacity-0 dark:opacity-100 absolute">Dark</span>
+              </div>
+            </button>
           </div>
         )
       }

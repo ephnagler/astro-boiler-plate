@@ -23,5 +23,6 @@ export default defineConfig({
     token: SANITY_API_TOKEN
   }), react()],
 
+  output: 'server',
   adapter: cloudflare()
 });

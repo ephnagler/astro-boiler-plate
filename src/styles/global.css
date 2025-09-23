@@ -2,7 +2,7 @@
 @variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @layer base {
-    html {
+    html, section {
         background-color: var(--base-bg);
         color: var(--base-text);
     }
@@ -12,7 +12,7 @@
     h2 {
         @apply text-2xl font-bold mb-1;
     }
-    button {
+    button, .cta-link {
         background-color: var(--accent-bg);
         color: var(--accent-text);
         margin: 1.5rem 0;

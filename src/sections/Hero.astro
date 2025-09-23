@@ -1,6 +1,30 @@
-<section class="hero">Hello</section>
-<style>
+---
+import type { Hero } from "../../sanity.types";
+
+const { hero } = Astro.props;
+
+const baseBg = hero.colorScheme?.baseBg?.hex;
+const baseText = hero.colorScheme?.baseText?.hex;
+const accentBg = hero.colorScheme?.accentBg?.hex;
+const accentText = hero.colorScheme?.accentText?.hex;
+---
+
+<section class="hero">
+  <h1>{hero.heading}</h1>
+  <p>{hero.subHeading}</p>
+  <a href={hero.ctaLink} class="cta-link">{hero.ctaText}</a>
+</section>
+<style define:vars={{ baseBg, baseText, accentBg, accentText }}>
   .hero {
-    @apply w-full h-screen;
+    --base-bg: var(--baseBg);
+    --base-text: var(--baseText);
+    --accent-bg: var(--accentBg);
+    --accent-text: var(--accentText);
+  }
+  [data-theme="dark"] .hero {
+    --base-bg: var(--baseBgDark);
+    --base-text: var(--baseTextDark);
+    --accent-bg: var(--accentBgDark);
+    --accent-text: var(--accentTextDark);
   }
 </style>

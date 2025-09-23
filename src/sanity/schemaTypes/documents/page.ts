@@ -19,7 +19,7 @@ export const pageType = defineType({
         defineField({
             name: "sections",
             type: "array",
-            of: [{ type: "section" }],
+            of: [{ type: "section" }, { type: "hero" }],
         }),
     ],
 });

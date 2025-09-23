@@ -8,7 +8,8 @@ import { siteSettingsType } from "./settings";
 import { pageType } from "./documents/page";
 import { sectionType } from "./objects/section";
 import { colorSchemeType } from "./documents/colorScheme";
+import { heroType } from "./objects/hero";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [templateType, projectType, blogType, eventType, galleryType, siteSettingsType, pageType, sectionType, colorSchemeType],
+  types: [templateType, projectType, blogType, eventType, galleryType, siteSettingsType, pageType, sectionType, colorSchemeType, heroType],
 };

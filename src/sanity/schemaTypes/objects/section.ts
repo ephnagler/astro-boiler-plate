@@ -20,12 +20,12 @@ export const sectionType = defineType({
             }
         }),
         defineField({
-            name: "title",
+            name: "heading",
             type: "string",
         }),
         defineField({
-            name: "subtitle",
-            type: "text",
+            name: "subHeading",
+            type: "string",
         }),
         defineField({
             name: "textContent",
@@ -71,12 +71,9 @@ export const sectionType = defineType({
             type: "url",
         }),
         defineField({
-            name: "backgroundColor",
-            type: "color",
-        }),
-        defineField({
-            name: "textColor",
-            type: "color",
-        }),
+            name: "colorScheme",
+            type: "reference",
+            to: [{ type: "colorScheme" }]
+        })
     ]
 });

@@ -17,17 +17,6 @@ const accentTextDark = hero.darkColorScheme?.accentText?.hex;
   <h1>{hero.heading}</h1>
   <p>{hero.subHeading}</p>
   <a href={hero.ctaLink} class="cta-link">{hero.ctaText}</a>
-  <button
-  data-toggle-theme="light,dark"
-  aria-label="Dark Mode Toggle"
-  class="flex gap-2 w-fit"
->
-  Theme Toggle:
-  <div class="relative inline-block">
-    <span class="opacity-100 dark:opacity-0 inline-block">Light</span>
-    <span class="opacity-0 dark:opacity-100 absolute left-0">Dark</span>
-  </div>
-</button>
 </section>
 <style define:vars={{ baseBg, baseText, accentBg, accentText, baseBgDark, baseTextDark, accentBgDark, accentTextDark }}>
 /*  */

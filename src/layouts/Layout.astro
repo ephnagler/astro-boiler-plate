@@ -2,6 +2,7 @@
 import type { SanityDocument } from "@sanity/client";
 import { loadQuery } from "./../sanity/lib/load-query";
 import "../styles/global.css";
+import Nav from "../components/Nav.astro";
 
 const { data: siteSettings } = await loadQuery<SanityDocument>({
   query: `*[_id == "siteSettings" && !(_id in path("drafts.**"))][0]{
@@ -45,9 +46,22 @@ const accentTextDark = dark?.accentText?.hex || accentText;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{siteSettings?.siteTitle || "Astro Boiler Plate"}</title>
-    <script>
-      import { initThemeToggle } from "./../js/theme-switch.js";
-      initThemeToggle();
+    <script is:inline>
+      // Theme initialization - must run before CSS parsing
+      (() => {
+        const theme = (() => {
+          if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+            return localStorage.getItem('theme');
+          }
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+          }
+          return 'light';
+        })();
+        
+        // Set theme immediately to prevent flash
+        document.documentElement.setAttribute('data-theme', theme || 'light');
+      })();
     </script>
     <style
       define:vars={{
@@ -65,6 +79,12 @@ const accentTextDark = dark?.accentText?.hex || accentText;
     </style>
   </head>
   <body>
+    <Nav />
     <slot />
+    <script>
+      // Theme toggle functionality - load after page is ready
+      import { initThemeToggle } from "./../js/theme-switch.js";
+      initThemeToggle();
+    </script>
   </body>
 </html>

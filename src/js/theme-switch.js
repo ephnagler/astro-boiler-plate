@@ -1,18 +1,4 @@
-// Theme initialization
-const theme = (() => {
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-      return localStorage.getItem('theme');
-    }
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    return 'light';
-  })();
-  
-  // Set theme immediately to prevent flash
-  document.documentElement.setAttribute('data-theme', theme);
-  
-  // Theme switching function
+// Theme switching function
   const handleToggleTheme = () => {
     const element = document.documentElement;
     const currentTheme = element.getAttribute('data-theme');

@@ -14,7 +14,7 @@ const { data: siteSettings } = await loadQuery<SanityDocument>({
 });
 ---
 
-<main class="flex flex-col gap-4 items-center justify-center h-screen">
+<main class="flex flex-col gap-4 items-center justify-center h-[80lvh]">
   <section class="flex flex-col">
     <h1>
       {siteSettings?.siteTitle || "Welcome to the Astro Boiler Plate."}
@@ -32,17 +32,5 @@ const { data: siteSettings } = await loadQuery<SanityDocument>({
         <p>Login to Studio to get started.</p>
       )
     }
-
-    <button
-      data-toggle-theme="light,dark"
-      aria-label="Dark Mode Toggle"
-      class="flex gap-2 w-fit"
-    >
-      Theme Toggle:
-      <div class="relative inline-block">
-        <span class="opacity-100 dark:opacity-0 inline-block">Light</span>
-        <span class="opacity-0 dark:opacity-100 absolute left-0">Dark</span>
-      </div>
-    </button>
   </section>
 </main>

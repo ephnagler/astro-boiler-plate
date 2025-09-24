@@ -29,7 +29,10 @@ const { data: page } = await loadQuery<Page>({
 ---
 
 <Layout>
+  <main>
+    <section>
   <h1>A post about {page?.name ?? "page"}</h1>
+</section>
   {
     page?.sections?.map((section) => {
       if (section._type === "hero") {
@@ -37,4 +40,5 @@ const { data: page } = await loadQuery<Page>({
       }
     })
   }
+  </main>
 </Layout>

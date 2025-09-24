@@ -49,8 +49,6 @@ const accentTextDark = dark?.accentText?.hex || accentText;
       import { initThemeToggle } from "./../js/theme-switch.js";
       initThemeToggle();
     </script>
-  </head>
-  <body>
     <style
       define:vars={{
         baseBg,
@@ -62,22 +60,11 @@ const accentTextDark = dark?.accentText?.hex || accentText;
         accentBgDark,
         accentTextDark,
       }}
-      is:global
     >
-      :root {
-        --base-bg: var(--baseBg);
-        --base-text: var(--baseText);
-        --accent-bg: var(--accentBg);
-        --accent-text: var(--accentText);
-      }
-      [data-theme="dark"]:root {
-        --base-bg: var(--baseBgDark);
-        --base-text: var(--baseTextDark);
-        --accent-bg: var(--accentBgDark);
-        --accent-text: var(--accentTextDark);
-      }
-      
+/*  */
     </style>
+  </head>
+  <body>
     <slot />
   </body>
 </html>

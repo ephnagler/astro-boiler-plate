@@ -2,9 +2,8 @@
 @variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @layer base {
-    html, section {
-        background-color: var(--base-bg);
-        color: var(--base-text);
+    body, section {
+        @apply bg-[var(--baseBg)] text-[var(--baseText)] dark:bg-[var(--baseBgDark)] dark:text-[var(--baseTextDark)];
     }
     h1 {
         @apply text-4xl font-bold mb-4;
@@ -13,14 +12,13 @@
         @apply text-2xl font-bold mb-1;
     }
     button, .cta-link {
-        background-color: var(--accent-bg);
-        color: var(--accent-text);
+        @apply bg-[var(--accentBg)] text-[var(--accentText)] dark:bg-[var(--accentBgDark)] dark:text-[var(--accentTextDark)];
         margin: 1.5rem 0;
         padding: 0.5rem 1rem;
         border-radius: 0.5rem;
         cursor: pointer;
     }
     .accent-text{
-        color: var(--accent-bg);
+        @apply text-[var(--accentBg)] dark:text-[var(--accentBgDark)];
     }
 }

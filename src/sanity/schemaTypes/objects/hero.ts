@@ -26,7 +26,12 @@ export const heroType = defineType({
             type: "image",
         }),
         defineField({
-            name: "colorScheme",
+            name: "lightColorScheme",
+            type: "reference",
+            to: [{ type: "colorScheme" }]
+        }),
+        defineField({
+            name: "darkColorScheme",
             type: "reference",
             to: [{ type: "colorScheme" }]
         })

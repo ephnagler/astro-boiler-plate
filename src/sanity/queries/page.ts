@@ -17,7 +17,13 @@ export const PAGE_BY_SLUG = groq`
                 url
               }
             },
-            colorScheme->{
+            lightColorScheme->{
+              baseBg,
+              baseText,
+              accentBg,
+              accentText
+            },
+            darkColorScheme->{
               baseBg,
               baseText,
               accentBg,

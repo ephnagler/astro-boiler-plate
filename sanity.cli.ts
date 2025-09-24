@@ -1,9 +1,9 @@
 // sanity.cli.js
-import { defineCliConfig } from "sanity/cli";
+import { defineCliConfig } from 'sanity/cli';
 
 export default defineCliConfig({
   api: {
-    projectId: "n4olvw93",
-    dataset: "production",
-  }
+    projectId: 'n4olvw93',
+    dataset: 'production',
+  },
 });

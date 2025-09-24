@@ -4,7 +4,7 @@
 
 - Astro
 - Sanity
-    - Plugin: color-input
+  - Plugin: color-input
 - Tailwind
 
 ## Features
@@ -12,21 +12,20 @@
 - Private Sanity dataset
 - Embedded Sanity Studio
 - Theme Templating from within one Sanity dataset.
-    - Publish as many docs as you want.
-        - Templates
-        - Color Schemes
-        - Pages
-        - Posts
-        - Projects
-        - Galleries
-        - Events
-    - Only referenced docs in live template will be accessible. 
+  - Publish as many docs as you want.
+    - Templates
+    - Color Schemes
+    - Pages
+    - Posts
+    - Projects
+    - Galleries
+    - Events
+  - Only referenced docs in live template will be accessible.
 - Extremely simple light / dark mode
-    - Eventually, all page sections will choose their own schemes or use the template's default.
 
 ## Type Safety
 
-Using Sanity TypeGen for now, even though it's experimental. I like that I can generate types based on schema AND groq queries. 
+Using Sanity TypeGen for now, even though it's experimental. I like that I can generate types based on schema AND groq queries.
 
 I might end up using GROQD + ZOD when the times comes. Using it explicitly over TypeGen didn't make sense to me, seemed like more work than necessary. However, seems useful for risky drifty queries:
 

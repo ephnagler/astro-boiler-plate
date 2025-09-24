@@ -1,23 +1,19 @@
 ---
-import type { Hero } from "../../sanity.types";
+import type { Hero } from '../../sanity.types';
+import Section from '../layouts/Section.astro';
 
-const { hero } = Astro.props;
-
-const baseBg = hero.lightColorScheme?.baseBg?.hex;
-const baseText = hero.lightColorScheme?.baseText?.hex;
-const accentBg = hero.lightColorScheme?.accentBg?.hex;
-const accentText = hero.lightColorScheme?.accentText?.hex;
-const baseBgDark = hero.darkColorScheme?.baseBg?.hex;
-const baseTextDark = hero.darkColorScheme?.baseText?.hex;
-const accentBgDark = hero.darkColorScheme?.accentBg?.hex;
-const accentTextDark = hero.darkColorScheme?.accentText?.hex;
+const { section } = Astro.props;
 ---
 
-<section class="hero">
-  <h1>{hero.heading}</h1>
-  <p>{hero.subHeading}</p>
-  <a href={hero.ctaLink} class="cta-link">{hero.ctaText}</a>
-</section>
-<style define:vars={{ baseBg, baseText, accentBg, accentText, baseBgDark, baseTextDark, accentBgDark, accentTextDark }}>
-/*  */
+<Section section={section}>
+  <div id="hero">
+    <h1>{section.heading}</h1>
+    <p>{section.subHeading}</p>
+    <a href={section.ctaLink} class="cta-link">{section.ctaText}</a>
+  </div>
+</Section>
+<style>
+  #hero {
+    @apply h-screen;
+  }
 </style>

@@ -1,6 +1,6 @@
 // ./src/sanity/lib/load-query.ts
-import { type QueryParams } from "sanity";
-import { sanityClient } from "sanity:client";
+import { type QueryParams } from 'sanity';
+import { sanityClient } from 'sanity:client';
 
 export async function loadQuery<QueryResponse>({
   query,
@@ -12,7 +12,7 @@ export async function loadQuery<QueryResponse>({
   const { result } = await sanityClient.fetch<QueryResponse>(
     query,
     params ?? {},
-    { filterResponse: false }
+    { filterResponse: false },
   );
 
   return {

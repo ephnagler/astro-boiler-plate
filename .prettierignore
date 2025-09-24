@@ -1,0 +1,15 @@
+node_modules
+.dist
+.build
+.cache
+.DS_Store
+coverage
+package-lock.json
+**/.astro
+**/.vercel
+**/.netlify
+**/dist
+**/build
+**/.sanity
+**/.data
+sanity.types.ts

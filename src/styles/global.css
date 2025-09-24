@@ -1,34 +1,35 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @layer base {
-    body, section {
-        @apply bg-[var(--baseBg)] text-[var(--baseText)] dark:bg-[var(--baseBgDark)] dark:text-[var(--baseTextDark)];
-    }
-    section {
-        @apply p-4 flex flex-col gap-2;
-    }
-    h1 {
-        @apply text-4xl font-bold mb-4;
-    }
-    h2 {
-        @apply text-2xl font-bold mb-1;
-    }
-    .cta-link {
-        @apply bg-[var(--accentBg)] text-[var(--accentText)] dark:bg-[var(--accentBgDark)] dark:text-[var(--accentTextDark)];
-        width: fit-content;
-        margin: 1.5rem 0;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-    }
-    .accent-text{
-        @apply text-[var(--accentBg)] dark:text-[var(--accentBgDark)];
-    }
-    nav{
-        @apply w-full flex justify-between p-4;
-    }
-    nav ul{
-        @apply flex gap-4;
-    }
+  body,
+  section {
+    @apply bg-[var(--baseBg)] text-[var(--baseText)] dark:bg-[var(--baseBgDark)] dark:text-[var(--baseTextDark)];
+  }
+  section {
+    @apply flex flex-col gap-2 p-4;
+  }
+  h1 {
+    @apply mb-4 text-4xl font-bold;
+  }
+  h2 {
+    @apply mb-1 text-2xl font-bold;
+  }
+  .cta-link {
+    @apply bg-[var(--accentBg)] text-[var(--accentText)] dark:bg-[var(--accentBgDark)] dark:text-[var(--accentTextDark)];
+    width: fit-content;
+    margin: 1.5rem 0;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  .accent-text {
+    @apply text-[var(--accentBg)] dark:text-[var(--accentBgDark)];
+  }
+  nav {
+    @apply flex w-full justify-between p-4;
+  }
+  nav ul {
+    @apply flex gap-4;
+  }
 }

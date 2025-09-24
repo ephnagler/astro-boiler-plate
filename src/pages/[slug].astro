@@ -1,10 +1,10 @@
 ---
-import type { SanityDocument } from "@sanity/client";
-import { loadQuery } from "../sanity/lib/load-query";
-import type { Page } from "../../sanity.types";
-import { PAGE_BY_SLUG } from "../sanity/queries/page";
-import Layout from "../layouts/Layout.astro";
-import Hero from "../sections/Hero.astro";
+import type { SanityDocument } from '@sanity/client';
+import { loadQuery } from '../sanity/lib/load-query';
+import type { Page } from '../../sanity.types';
+import { PAGE_BY_SLUG } from '../sanity/queries/page';
+import Layout from '../layouts/Layout.astro';
+import Hero from '../sections/Hero.astro';
 
 export async function getStaticPaths() {
   const { data: pages } = await loadQuery<SanityDocument[]>({
@@ -31,14 +31,14 @@ const { data: page } = await loadQuery<Page>({
 <Layout>
   <main>
     <section>
-  <h1>A post about {page?.name ?? "page"}</h1>
-</section>
-  {
-    page?.sections?.map((section) => {
-      if (section._type === "hero") {
-        return <Hero hero={section} />;
-      }
-    })
-  }
+      <h1>A page about {page?.name ?? 'page'}</h1>
+    </section>
+    {
+      page?.sections?.map((section) => {
+        if (section._type === 'hero') {
+          return <Hero section={section} />;
+        }
+      })
+    }
   </main>
 </Layout>

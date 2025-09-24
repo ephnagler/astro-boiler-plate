@@ -1,0 +1,30 @@
+---
+const { section } = Astro.props;
+
+const baseBg = section.lightColorScheme?.baseBg?.hex;
+const baseText = section.lightColorScheme?.baseText?.hex;
+const accentBg = section.lightColorScheme?.accentBg?.hex;
+const accentText = section.lightColorScheme?.accentText?.hex;
+const baseBgDark = section.darkColorScheme?.baseBg?.hex;
+const baseTextDark = section.darkColorScheme?.baseText?.hex;
+const accentBgDark = section.darkColorScheme?.accentBg?.hex;
+const accentTextDark = section.darkColorScheme?.accentText?.hex;
+---
+
+<section class={section.sectionType}>
+  <slot />
+</section>
+<style
+  define:vars={{
+    baseBg,
+    baseText,
+    accentBg,
+    accentText,
+    baseBgDark,
+    baseTextDark,
+    accentBgDark,
+    accentTextDark,
+  }}
+>
+  /* CSS Variables for Sections */
+</style>

@@ -6,7 +6,7 @@ import {
   CalendarIcon,
   ProjectsIcon,
   VersionsIcon,
-  ColorWheelIcon
+  ColorWheelIcon,
 } from '@sanity/icons';
 
 export const deskStructure = (S) =>
@@ -22,16 +22,14 @@ export const deskStructure = (S) =>
           S.editor()
             .id('siteSettings')
             .schemaType('siteSettings')
-            .documentId('siteSettings')
+            .documentId('siteSettings'),
         ),
       S.divider(),
       S.listItem()
         .title('Templates')
         .icon(VersionsIcon)
         .child(
-          S.documentList()
-            .title('Templates')
-            .filter('_type == "template"')
+          S.documentList().title('Templates').filter('_type == "template"'),
         ),
       S.listItem()
         .title('Pages')
@@ -39,7 +37,7 @@ export const deskStructure = (S) =>
         .child(
           S.documentList()
             .title('Pages')
-            .filter('_type == "page" && _id != "homePage"')
+            .filter('_type == "page" && _id != "homePage"'),
         ),
       S.listItem()
         .title('Content')
@@ -48,11 +46,19 @@ export const deskStructure = (S) =>
           S.list()
             .title('Content')
             .items([
-              S.documentTypeListItem('blog').title('Blog Posts').icon(ComposeIcon),
-              S.documentTypeListItem('event').title('Events').icon(CalendarIcon),
-              S.documentTypeListItem('gallery').title('Galleries').icon(ImagesIcon),
-              S.documentTypeListItem('project').title('Projects').icon(ProjectsIcon),
-            ])
+              S.documentTypeListItem('blog')
+                .title('Blog Posts')
+                .icon(ComposeIcon),
+              S.documentTypeListItem('event')
+                .title('Events')
+                .icon(CalendarIcon),
+              S.documentTypeListItem('gallery')
+                .title('Galleries')
+                .icon(ImagesIcon),
+              S.documentTypeListItem('project')
+                .title('Projects')
+                .icon(ProjectsIcon),
+            ]),
         ),
       S.listItem()
         .title('Color Schemes')
@@ -60,6 +66,6 @@ export const deskStructure = (S) =>
         .child(
           S.documentList()
             .title('Color Schemes')
-            .filter('_type == "colorScheme"')
+            .filter('_type == "colorScheme"'),
         ),
     ]);

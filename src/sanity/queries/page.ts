@@ -1,4 +1,4 @@
-import groq from "groq";
+import groq from 'groq';
 
 export const PAGE_BY_SLUG = groq`
 *[_type == "page" && slug.current == $slug][0]{

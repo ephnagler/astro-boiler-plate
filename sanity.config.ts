@@ -5,9 +5,12 @@ import { schema } from './src/sanity/schemaTypes';
 import { deskStructure } from './deskStructure';
 import { colorInput } from '@sanity/color-input';
 
+const projectId = import.meta.env?.PUBLIC_SANITY_PROJECT_ID;
+const dataset = import.meta.env?.PUBLIC_SANITY_DATASET;
+
 export default defineConfig({
-  projectId: 'n4olvw93',
-  dataset: 'production',
+  projectId,
+  dataset,
   plugins: [structureTool({ structure: deskStructure }), colorInput()],
   schema,
   document: {

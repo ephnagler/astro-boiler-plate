@@ -6,7 +6,7 @@ import react from '@astrojs/react';
 import sanity from '@sanity/astro';
 import tailwindcss from '@tailwindcss/vite';
 
-const { SANITY_API_TOKEN } = loadEnv(
+const { SANITY_API_TOKEN, PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
   process.env.NODE_ENV || 'development',
   process.cwd(),
   '',
@@ -19,8 +19,8 @@ export default defineConfig({
 
   integrations: [
     sanity({
-      projectId: 'n4olvw93',
-      dataset: 'production',
+      projectId: PUBLIC_SANITY_PROJECT_ID,
+      dataset: PUBLIC_SANITY_DATASET,
       useCdn: true,
       apiVersion: '2025-09-20',
       studioBasePath: '/studio',

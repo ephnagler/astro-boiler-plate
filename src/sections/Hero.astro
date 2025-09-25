@@ -6,14 +6,21 @@ const { section } = Astro.props;
 ---
 
 <Section section={section}>
-  <div id="hero">
-    <h1>{section.heading}</h1>
-    <p>{section.subHeading}</p>
-    <a href={section.ctaLink} class="cta-link">{section.ctaText}</a>
+  <div class="section-container">
+    <div class="section-content">
+      <h1>{section.heading}</h1>
+      <p>{section.subHeading}</p>
+      <a href={section.ctaLink} class="cta-link">{section.ctaText}</a>
+    </div>
   </div>
 </Section>
 <style>
-  #hero {
-    @apply h-screen;
+  @reference './../styles/global.css';
+  .section-container {
+    @apply flex h-96 w-full justify-center gap-8 p-8;
+  }
+
+  .section-content {
+    @apply flex min-w-xl flex-col gap-2 rounded-lg bg-[var(--accentBg)]/25 p-8 dark:bg-[var(--accentBgDark)]/25;
   }
 </style>

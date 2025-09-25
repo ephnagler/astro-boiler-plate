@@ -6,9 +6,6 @@
   section {
     @apply bg-[var(--baseBg)] text-[var(--baseText)] dark:bg-[var(--baseBgDark)] dark:text-[var(--baseTextDark)];
   }
-  section {
-    @apply flex flex-col gap-2 p-4;
-  }
   h1 {
     @apply mb-4 text-4xl font-bold;
   }
@@ -25,11 +22,5 @@
   }
   .accent-text {
     @apply text-[var(--accentBg)] dark:text-[var(--accentBgDark)];
-  }
-  nav {
-    @apply flex w-full justify-between p-4;
-  }
-  nav ul {
-    @apply flex gap-4;
   }
 }

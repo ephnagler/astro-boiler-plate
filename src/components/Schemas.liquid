@@ -1,0 +1,582 @@
+{%- comment -%}
+  Centralized JSON-LD schemas
+  - Organization (all pages)
+  - ClothingStore (all pages - physical location)
+  - WebSite (index only)
+  - Blog (blog pages)
+  - Article (article pages)
+  - Collection (collection pages)
+  - Product (product pages)
+  - ContactPage (contact page)
+  - AboutPage (about page)
+  - WebPage (all pages)
+
+  Conventions:
+  - Use https for all schema contexts/URLs
+  - Use canonical_url for page-level entity @id/url (Article, WebSite)
+  - Use https://{{ shop.domain }} for site-wide Organization/WebSite @id anchors
+  - Emit only non-empty social links in sameAs
+{%- endcomment -%}
+
+{%- capture org_sameas -%}
+    {%- assign first = true -%}
+    {%- if settings.social_twitter_link != blank -%}{% unless first %},{% endunless %}{{ settings.social_twitter_link | replace: 'http://', 'https://' | json }}{%- assign first = false -%}{%- endif -%}
+    {%- if settings.social_facebook_link != blank -%}{% unless first %},{% endunless %}{{ settings.social_facebook_link | replace: 'http://', 'https://' | json }}{%- assign first = false -%}{%- endif -%}
+    {%- if settings.social_pinterest_link != blank -%}{% unless first %},{% endunless %}{{ settings.social_pinterest_link | replace: 'http://', 'https://' | json }}{%- assign first = false -%}{%- endif -%}
+    {%- if settings.social_instagram_link != blank -%}{% unless first %},{% endunless %}{{ settings.social_instagram_link | replace: 'http://', 'https://' | json }}{%- assign first = false -%}{%- endif -%}
+    {%- if settings.social_tiktok_link != blank -%}{% unless first %},{% endunless %}{{ settings.social_tiktok_link | replace: 'http://', 'https://' | json }}{%- assign first = false -%}{%- endif -%}
+    {%- if settings.social_tumblr_link != blank -%}{% unless first %},{% endunless %}{{ settings.social_tumblr_link | replace: 'http://', 'https://' | json }}{%- assign first = false -%}{%- endif -%}
+    {%- if settings.social_snapchat_link != blank -%}{% unless first %},{% endunless %}{{ settings.social_snapchat_link | replace: 'http://', 'https://' | json }}{%- assign first = false -%}{%- endif -%}
+    {%- if settings.social_youtube_link != blank -%}{% unless first %},{% endunless %}{{ settings.social_youtube_link | replace: 'http://', 'https://' | json }}{%- assign first = false -%}{%- endif -%}
+    {%- if settings.social_vimeo_link != blank -%}{% unless first %},{% endunless %}{{ settings.social_vimeo_link | replace: 'http://', 'https://' | json }}{%- assign first = false -%}{%- endif -%}
+    {%- endcapture -%}
+
+<script type='application/ld+json'>
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": {{ 'https://' | append: shop.domain | append: '#organization' | json }},
+    "name": {{ shop.name | json }},
+    {% if settings.logo %}
+      "logo": {
+        "@type": "ImageObject",
+        "url": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+        {% if settings.logo.width %}
+          "width": {{ settings.logo.width | json }},
+        {% endif %}
+        {% if settings.logo.height %}
+          "height": {{ settings.logo.height | json }}
+        {% endif %}
+      },
+    {% endif %}
+    "sameAs": [{{ org_sameas }}],
+    "url": {{ 'https://' | append: shop.domain | json }}
+  }
+</script>
+
+<script type='application/ld+json'>
+  {
+    "@context": "https://schema.org",
+    "@type": "ClothingStore",
+    "@id": {{ 'https://' | append: shop.domain | append: '#clothingstore' | json }},
+    "name": {{ shop.name | json }},
+    "url": {{ 'https://' | append: shop.domain | json }},
+    "image": [
+      {%- assign first_image = true -%}
+      {%- if settings.logo -%}
+        {{ settings.logo | image_url: width: 1920 | prepend: "https:" | json }}
+        {%- assign first_image = false -%}
+      {%- endif -%}
+      {%- for product in collections.featured.products limit: 3 -%}
+        {%- if product.featured_media -%}
+          {%- unless first_image -%},{%- endunless -%}
+          {{ product.featured_media | image_url: width: 1920 | prepend: "https:" | json }}
+          {%- assign first_image = false -%}
+        {%- endif -%}
+      {%- endfor -%}
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": {{ shop.address.address1 | json }},
+      "addressLocality": {{ shop.address.city | json }},
+      "addressRegion": {{ shop.address.province | json }},
+      "postalCode": {{ shop.address.zip | json }},
+      "addressCountry": {{ shop.address.country | json }}
+    },
+    {% if shop.phone %}
+      "telephone": {{ shop.phone | json }},
+    {% endif %}
+    {% if shop.email %}
+      "email": {{ shop.email | json }},
+    {% endif %}
+    {% if settings.map_url and settings.map_url != blank %}
+      "hasMap": {{ settings.map_url | replace: 'http://', 'https://' | json }},
+    {% endif %}
+    {% if settings.store_latitude and settings.store_longitude and settings.store_latitude != blank and settings.store_longitude != blank %}
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": {{ settings.store_latitude | json }},
+        "longitude": {{ settings.store_longitude | json }}
+      },
+    {% endif %}
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Wednesday", "Thursday", "Friday"],
+        "opens": "11:00",
+        "closes": "17:30",
+        "description": "Physical store by appointment only"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Saturday"],
+        "opens": "11:00",
+        "closes": "16:30",
+        "description": "Physical store by appointment only"
+      }
+    ],
+    "publicAccess": false,
+    "description": "Division Road is Open by Appointment at The Fields, our flagship destination in Virginia where cultivation, curation, and craft combine.",
+    "priceRange": "$$$",
+    "currenciesAccepted": {{ shop.currency | json }},
+    "paymentAccepted": "Cash, Credit Card",
+    {% if settings.logo %}
+      "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+    {% endif %}
+    "sameAs": [{{ org_sameas }}]
+  }
+</script>
+
+{%- case request.page_type -%}
+  {%- when 'index' -%}
+    {% assign potential_action_target = canonical_url | append: routes.search_url | append: '?q={search_term_string}' %}
+    <script type='application/ld+json'>
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": {{ canonical_url | append: '#website' | json }},
+        "name": {{ shop.name | json }},
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {{ potential_action_target | json }},
+          "query-input": "required name=search_term_string"
+        },
+        "url": {{ canonical_url | json }}
+      }
+    </script>
+
+  {%- when 'product' -%}
+    {%- liquid
+      if product.selected_or_first_available_variant.featured_media
+        assign seo_media = product.selected_or_first_available_variant.featured_media
+      else
+        assign seo_media = product.featured_media
+      endif
+    -%}
+    <script type='application/ld+json'>
+      {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "@id": {{ canonical_url | append: "#product" | json }},
+        "name": {{ product.title | json }},
+        "url": {{ canonical_url | json }},
+        {% if seo_media -%}
+          "image": [
+            {{ seo_media | image_url: width: 1920 | prepend: "https:" | json }}
+          ],
+        {%- endif %}
+        "description": {{ product.metafields.global.description_tag | default: product.description | strip_html | strip | json }},
+        {% if product.selected_or_first_available_variant.sku != blank -%}
+          "sku": {{ product.selected_or_first_available_variant.sku | json }},
+        {%- endif %}
+        "brand": {
+          "@type": "Brand",
+          "name": {{ product.vendor | json }}
+        },
+        "offers": [
+          {%- for variant in product.variants -%}
+            {
+              "@type": "Offer",
+              {%- if variant.sku != blank -%}
+                "sku": {{ variant.sku | json }},
+              {%- endif -%}
+              {%- if variant.barcode != blank and variant.barcode.size != 12 and variant.barcode.size != 13 and variant.barcode.size != 14 -%}
+                "mpn": {{ variant.barcode | json }},
+              {%- elsif variant.sku != blank -%}
+                "mpn": {{ variant.sku | json }},
+              {%- endif -%}
+              {%- if variant.barcode.size == 12 -%}
+                "gtin12": {{ variant.barcode }},
+              {%- endif -%}
+              {%- if variant.barcode.size == 13 -%}
+                "gtin13": {{ variant.barcode }},
+              {%- endif -%}
+              {%- if variant.barcode.size == 14 -%}
+                "gtin14": {{ variant.barcode }},
+              {%- endif -%}
+              "availability": "https://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+              "itemCondition": "https://schema.org/NewCondition",
+              "price": {{ variant.price | divided_by: 100.00 | json }},
+              "priceCurrency": {{ shop.currency | json }},
+              "url": {{ 'https://' | append: shop.domain | append: variant.url | json }},
+              "seller": {
+                "@type": "Organization",
+                "name": {{ shop.name | json }},
+                "@id": {{ 'https://' | append: shop.domain | append: '#organization' | json }}
+              }
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      }
+    </script>
+
+  {%- when 'article' -%}
+    <script type='application/ld+json'>
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "@id": {{ canonical_url | append: "#article" | json }},
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": {{ canonical_url | json }}
+        },
+        "headline": {{ article.title | truncate: 110 | json }},
+        "description": {{ article.content | strip_html | strip | truncate: 320 | json }},
+        "articleSection": {{ blog.title | json }},
+        {% if article.image %}
+          "image": [
+            {{ article | image_url: width: 1920 | prepend: "https:" | json }}
+          ],
+        {% endif %}
+        "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+        "dateModified": {{ article.updated_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+        "dateCreated": {{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+        "author": {
+          "@type": "Organization",
+          "name": {{ article.author | json }}
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": {{ 'https://' | append: shop.domain | append: '#organization' | json }},
+          "name": {{ shop.name | json }}
+        },
+        "inLanguage": {{ request.locale.iso_code | json }},
+        "isAccessibleForFree": true
+      }
+    </script>
+
+  {%- when 'blog' -%}
+    <script type='application/ld+json'>
+      {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "@id": {{ canonical_url | json }},
+        "url": {{ canonical_url | json }},
+        "name": {{ blog.title | json }},
+        "description": {{ blog.description | strip_html | strip | truncate: 320 | json }},
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": {{ 'https://' | append: shop.domain | append: '#website' | json }}
+        },
+        "inLanguage": {{ request.locale.iso_code | json }},
+        "blogPost": [
+          {%- for article in blog.articles limit: 24 -%}
+            {
+              "@type": "BlogPosting",
+              "headline": {{ article.title | json }},
+              "url": {{ 'https://' | append: shop.domain | append: article.url | json }}
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      }
+    </script>
+
+  {%- when 'collection' -%}
+    <script type='application/ld+json'>
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "@id": {{ canonical_url | json }},
+        "url": {{ canonical_url | json }},
+        "name": {{ collection.title | json }},
+        "description": {{ collection.description | strip_html | strip | truncate: 320 | json }},
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": {{ 'https://' | append: shop.domain | append: '#website' | json }}
+        },
+        "inLanguage": {{ request.locale.iso_code | json }},
+        "mainEntity": {
+          "@type": "ItemList",
+          "itemListElement": [
+            {%- for product in collection.products limit: 24 -%}
+              {
+                "@type": "ListItem",
+                "position": {{ forloop.index | json }},
+                "name": {{ product.title | json }},
+                "url": {{ 'https://' | append: shop.domain | append: product.url | json }}
+              }{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          ]
+        }
+      }
+    </script>
+
+  {%- when 'page' -%}
+    {%- case page.handle -%}
+      {%- when 'contact-us' -%}
+        <script type='application/ld+json'>
+          {
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "@id": {{ canonical_url | json }},
+            "url": {{ canonical_url | json }},
+            "name": {{ page.title | json }},
+            "description": {{ page.content | strip_html | strip | truncate: 320 | json }},
+            "isPartOf": {
+              "@type": "WebSite",
+              "@id": {{ 'https://' | append: shop.domain | append: '#website' | json }}
+            },
+            "inLanguage": {{ request.locale.iso_code | json }}
+          }
+        </script>
+      {%- when 'about-us' -%}
+        <script type='application/ld+json'>
+          {
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            "@id": {{ canonical_url | json }},
+            "url": {{ canonical_url | json }},
+            "name": {{ page.title | json }},
+            "description": {{ page.content | strip_html | strip | truncate: 320 | json }},
+            "isPartOf": {
+              "@type": "WebSite",
+              "@id": {{ 'https://' | append: shop.domain | append: '#organization' | json }}
+            },
+            "inLanguage": {{ request.locale.iso_code | json }}
+          }
+        </script>
+      {%- else -%}
+        <script type='application/ld+json'>
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": {{ canonical_url | json }},
+            "url": {{ canonical_url | json }},
+            "name": {{ page.title | json }},
+            "description": {{ page.content | strip_html | strip | truncate: 320 | json }},
+            "isPartOf": {
+              "@type": "WebSite",
+              "@id": {{ 'https://' | append: shop.domain | append: '#organization' | json }}
+            },
+            "inLanguage": {{ request.locale.iso_code | json }}
+          }
+        </script>
+    {%- endcase -%}
+{%- endcase -%}
+
+{%- comment -%}
+  BreadcrumbList (all major page types)
+  - Follows Google guidance: https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data
+  - Emits absolute HTTPS URLs, JSON-encoded values, and accurate positions
+{%- endcomment -%}
+
+{%- assign position_counter = 1 -%}
+{%- capture breadcrumb_items -%}
+      {
+        "@type": "ListItem",
+        "position": {{ position_counter }},
+        "name": "Home",
+        "item": {{ 'https://' | append: shop.domain | json }}
+      }
+    {%- endcapture -%}
+
+{%- if template.name == 'product' -%}
+  {%- assign collection_handles = '' -%}
+  {%- for c in product.collections -%}
+    {%- capture collection_handles -%}{{ c.handle }}|{{ collection_handles }}{%- endcapture -%}
+  {%- endfor -%}
+  {%- assign collection_handles = collection_handles | split: '|' -%}
+  {%- assign trail_found = false -%}
+  {%- for parent in linklists['main-menu'].links -%}
+    {%- assign parent_handle = parent.url | remove: shop.url | remove: '/collections/' -%}
+    {%- if collection_handles contains parent_handle -%}
+      {%- capture breadcrumb_items -%}
+            {{ breadcrumb_items }},
+            {
+              "@type": "ListItem",
+              {%- assign position_counter = position_counter | plus: 1 -%}
+              "position": {{ position_counter }},
+              "name": {{ parent.title | json }},
+              "item": {{ 'https://' | append: shop.domain | append: parent.url | json }}
+            }
+          {%- endcapture -%}
+    {%- endif -%}
+    {%- for child in parent.links -%}
+      {%- unless trail_found -%}
+        {%- assign child_handle = child.url | remove: shop.url | remove: '/collections/' -%}
+        {%- if collection_handles contains child_handle -%}
+          {%- capture breadcrumb_items -%}
+                {{ breadcrumb_items }},
+                {
+                  "@type": "ListItem",
+                  {%- assign position_counter = position_counter | plus: 1 -%}
+                  "position": {{ position_counter }},
+                  "name": {{ parent.title | json }},
+                  "item": {{ 'https://' | append: shop.domain | append: parent.url | json }}
+                },
+                {
+                  "@type": "ListItem",
+                  {%- assign position_counter = position_counter | plus: 1 -%}
+                  "position": {{ position_counter }},
+                  "name": {{ child.title | json }},
+                  "item": {{ 'https://' | append: shop.domain | append: child.url | json }}
+                }
+              {%- endcapture -%}
+          {%- assign trail_found = true -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endunless -%}
+      {%- unless trail_found -%}
+        {%- for grandchild in child.links -%}
+          {%- assign grandchild_handle = grandchild.url | remove: shop.url | remove: '/collections/' -%}
+          {%- if collection_handles contains grandchild_handle -%}
+            {%- capture breadcrumb_items -%}
+                  {{ breadcrumb_items }},
+                  {
+                    "@type": "ListItem",
+                    {%- assign position_counter = position_counter | plus: 1 -%}
+                    "position": {{ position_counter }},
+                    "name": {{ parent.title | json }},
+                    "item": {{ 'https://' | append: shop.domain | append: parent.url | json }}
+                  },
+                  {
+                    "@type": "ListItem",
+                    {%- assign position_counter = position_counter | plus: 1 -%}
+                    "position": {{ position_counter }},
+                    "name": {{ child.title | json }},
+                    "item": {{ 'https://' | append: shop.domain | append: child.url | json }}
+                  },
+                  {
+                    "@type": "ListItem",
+                    {%- assign position_counter = position_counter | plus: 1 -%}
+                    "position": {{ position_counter }},
+                    "name": {{ grandchild.title | json }},
+                    "item": {{ 'https://' | append: shop.domain | append: grandchild.url | json }}
+                  }
+                {%- endcapture -%}
+            {%- assign trail_found = true -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endunless -%}
+      {%- if trail_found -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+  {%- capture breadcrumb_items -%}
+        {{ breadcrumb_items }},
+        {
+          "@type": "ListItem",
+          {%- assign position_counter = position_counter | plus: 1 -%}
+          "position": {{ position_counter }},
+          "name": {{ product.title | json }},
+          "item": {{ canonical_url | json }}
+        }
+      {%- endcapture -%}
+
+{%- elsif template.name == 'collection' -%}
+  {%- assign this_title = null -%}
+  {%- for parent in linklists['main-menu'].links -%}
+    {%- assign parent_handle = parent.url | remove: shop.url | remove: '/collections/' -%}
+    {%- if parent_handle == collection.handle -%}
+      {%- assign this_title = parent.title -%}
+    {%- endif -%}
+    {%- for child in parent.links -%}
+      {%- assign child_handle = child.url | remove: shop.url | remove: '/collections/' -%}
+      {%- if child_handle == collection.handle -%}
+        {%- assign this_title = child.title -%}
+        {%- capture breadcrumb_items -%}
+              {{ breadcrumb_items }},
+              {
+                "@type": "ListItem",
+                {%- assign position_counter = position_counter | plus: 1 -%}
+                "position": {{ position_counter }},
+                "name": {{ parent.title | json }},
+                "item": {{ 'https://' | append: shop.domain | append: parent.url | json }}
+              }
+            {%- endcapture -%}
+        {%- break -%}
+      {%- endif -%}
+      {%- for grandchild in child.links -%}
+        {%- assign grandchild_handle = grandchild.url | remove: shop.url | remove: '/collections/' -%}
+        {%- if grandchild_handle == collection.handle -%}
+          {%- assign this_title = grandchild.title -%}
+          {%- capture breadcrumb_items -%}
+                {{ breadcrumb_items }},
+                {
+                  "@type": "ListItem",
+                  {%- assign position_counter = position_counter | plus: 1 -%}
+                  "position": {{ position_counter }},
+                  "name": {{ parent.title | json }},
+                  "item": {{ 'https://' | append: shop.domain | append: parent.url | json }}
+                },
+                {
+                  "@type": "ListItem",
+                  {%- assign position_counter = position_counter | plus: 1 -%}
+                  "position": {{ position_counter }},
+                  "name": {{ child.title | json }},
+                  "item": {{ 'https://' | append: shop.domain | append: child.url | json }}
+                }
+              {%- endcapture -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  {%- endfor -%}
+  {%- capture breadcrumb_items -%}
+        {{ breadcrumb_items }},
+        {
+          "@type": "ListItem",
+          {%- assign position_counter = position_counter | plus: 1 -%}
+          "position": {{ position_counter }},
+          "name": {{ this_title | default: collection.title | json }},
+          "item": {{ canonical_url | json }}
+        }
+      {%- endcapture -%}
+
+{%- elsif template.name == 'page' -%}
+  {%- capture breadcrumb_items -%}
+        {{ breadcrumb_items }},
+        {
+          "@type": "ListItem",
+          {%- assign position_counter = position_counter | plus: 1 -%}
+          "position": {{ position_counter }},
+          "name": {{ page.title | json }},
+          "item": {{ canonical_url | json }}
+        }
+      {%- endcapture -%}
+
+{%- elsif template.name == 'blog' -%}
+  {%- capture breadcrumb_items -%}
+        {{ breadcrumb_items }},
+        {
+          "@type": "ListItem",
+          {%- assign position_counter = position_counter | plus: 1 -%}
+          "position": {{ position_counter }},
+          "name": {{ blog.title | json }},
+          "item": {{ canonical_url | json }}
+        }
+      {%- endcapture -%}
+
+{%- elsif template.name == 'article' -%}
+  {%- capture breadcrumb_items -%}
+        {{ breadcrumb_items }},
+        {
+          "@type": "ListItem",
+          {%- assign position_counter = position_counter | plus: 1 -%}
+          "position": {{ position_counter }},
+          "name": {{ blog.title | json }},
+          "item": {{ 'https://' | append: shop.domain | append: blog.url | json }}
+        },
+        {
+          "@type": "ListItem",
+          {%- assign position_counter = position_counter | plus: 1 -%}
+          "position": {{ position_counter }},
+          "name": {{ article.title | json }},
+          "item": {{ canonical_url | json }}
+        }
+      {%- endcapture -%}
+{%- endif -%}
+
+{%- if breadcrumb_items != blank -%}
+  <script type='application/ld+json'>
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {{- breadcrumb_items -}}
+      ]
+    }
+  </script>
+{%- endif -%}
